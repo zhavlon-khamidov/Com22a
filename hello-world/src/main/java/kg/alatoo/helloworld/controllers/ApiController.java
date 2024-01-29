@@ -51,5 +51,7 @@ public class ApiController {
         taskRepo.deleteById(id);
         return optionalTask.orElseThrow();
     }
+
+    //TODO: HW create PATCH request that updates only provided fields
 }
 
