@@ -1,19 +1,25 @@
 package kg.alatoo.helloworld.controllers;
 
 
+import kg.alatoo.helloworld.entity.Task;
+import kg.alatoo.helloworld.repositories.TaskRepository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/")
 public class ApiController {
 
-    @GetMapping
-    public String hello() {
-        return "<h1>Hello Spring!</h1><p>Welcome to our spring course!</p>";
+    private final TaskRepository taskRepo;
+
+    public ApiController(TaskRepository taskRepo) {
+        this.taskRepo = taskRepo;
     }
 
-    @GetMapping("welcome")
-    public String welcomeAibika() {
-        return "Welcome, Aibika";
+    @GetMapping("task")
+    public Iterable<Task> getAllTasks() {
+        return taskRepo.findAll();
     }
 }
+
