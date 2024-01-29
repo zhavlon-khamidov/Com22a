@@ -2,7 +2,6 @@ package kg.alatoo.helloworld;
 
 import kg.alatoo.helloworld.entity.Task;
 import kg.alatoo.helloworld.repositories.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,10 +25,10 @@ public class HelloWorldApplication {
     @Bean
     public CommandLineRunner initDatabase() {
          return new CommandLineRunner(){
-            public void run(String... args) throws Exception{
+            public void run(String... args) {
                 System.out.println("CommandLineRunner started");
 
-                //TODO: create some tasks in database
+                // create some tasks in database
                 Task task1 = new Task()
                         .setTitle("Task 1")
                         .setDescription("Hello World!");
