@@ -1,24 +1,31 @@
 package kg.alatoo.libraryapp.entities;
 
 
-import lombok.Builder;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
-@Builder
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
+@Builder
+@Entity
 public class Book {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private int publishedYear;
     private String isbn;
     private int edition;
 
-//    private Publisher publisher;
-//
-//    private List<Author> authors;
+    @ManyToOne
+    private Publisher publisher;
+
+    @ManyToMany
+    private List<Author> authors;
 
 }
