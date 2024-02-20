@@ -2,19 +2,23 @@ package kg.alatoo.libraryapp.bootstrap;
 
 import kg.alatoo.libraryapp.entities.Book;
 import kg.alatoo.libraryapp.repositories.BookRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
+
 @Component
 public class InitData implements CommandLineRunner {
 
     private final BookRepository bookRepository;
 
+    public InitData(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
     @Override
     public void run(String... args) {
         //TODO: HW create at least 3 publisher that each publisher has at least 2 books with single and multiple authors
+
 
         Book book1 = Book.builder()
                 .title("Syngan kylych")

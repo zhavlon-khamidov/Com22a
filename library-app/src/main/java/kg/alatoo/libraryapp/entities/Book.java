@@ -2,7 +2,10 @@ package kg.alatoo.libraryapp.entities;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(name = "title_ed",columnNames = {"title","edition"}))
 public class Book {
 
     @Id
