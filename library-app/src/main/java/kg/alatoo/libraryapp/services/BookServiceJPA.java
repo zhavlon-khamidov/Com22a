@@ -22,8 +22,10 @@ public class BookServiceJPA implements BookService {
 
     @Override
     public List<BookDTO> findBooks() {
-        //TODO: HW develop method
-        return null;
+        return bookRepository.findAll()
+                .stream()
+                .map(bookMapper::bookToBookDto)
+                .toList();
     }
 
     @Override
