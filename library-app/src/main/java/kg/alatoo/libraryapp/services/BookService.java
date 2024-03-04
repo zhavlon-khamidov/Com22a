@@ -10,4 +10,6 @@ public interface BookService {
     List<BookDTO> findBooks();
 
     Optional<BookDTO> findBookByID(Long id);
+
+    BookDTO saveBook(BookDTO dto);
 }

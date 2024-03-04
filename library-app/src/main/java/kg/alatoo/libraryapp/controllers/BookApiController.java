@@ -4,12 +4,12 @@ import kg.alatoo.libraryapp.dto.BookDTO;
 import kg.alatoo.libraryapp.services.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +31,17 @@ public class BookApiController {
     @GetMapping(ID_PATH)
     public BookDTO getById(@PathVariable Long id) {
         log.info("Getting book with id:" + id);
-        return bookService.findBookByID(id).orElseThrow(NoSuchElementException::new);
+        return bookService.findBookByID(id).orElseThrow(NotFoundException::new);
     }
+
+
+    @PostMapping(BOOK_PATH)
+    public ResponseEntity<BookDTO> createBook(@Validated @RequestBody BookDTO bookDTO) {
+        BookDTO dto = bookService.saveBook(bookDTO);
+
+        return ResponseEntity.created(URI.create(BOOK_PATH + "/"+dto.getId())).body(dto);
+    }
+
+
+
 }

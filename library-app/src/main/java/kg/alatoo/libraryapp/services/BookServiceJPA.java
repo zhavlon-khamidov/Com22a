@@ -22,6 +22,7 @@ public class BookServiceJPA implements BookService {
 
     @Override
     public List<BookDTO> findBooks() {
+        //TODO: HW develop method
         return null;
     }
 
@@ -29,7 +30,16 @@ public class BookServiceJPA implements BookService {
     public Optional<BookDTO> findBookByID(Long id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         return Optional.ofNullable(
-                bookMapper.bookToBookDto(optionalBook.orElseGet(null))
+                bookMapper.bookToBookDto(optionalBook.orElse(null))
+        );
+    }
+
+    @Override
+    public BookDTO saveBook(BookDTO dto) {
+        return bookMapper.bookToBookDto(
+                bookRepository.save(
+                        bookMapper.bookDtoToBook(dto)
+                )
         );
     }
 }

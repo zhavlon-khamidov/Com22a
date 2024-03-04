@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,5 +17,7 @@ public class PublisherDTO {
     private String name;
     private String address;
     private String email;
+
+    Set<BookDTO> books;
 
 }
