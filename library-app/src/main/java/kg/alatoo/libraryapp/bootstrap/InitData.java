@@ -5,6 +5,8 @@ import kg.alatoo.libraryapp.repositories.BookRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Random;
+
 
 @Component
 public class InitData implements CommandLineRunner {
@@ -18,7 +20,6 @@ public class InitData implements CommandLineRunner {
     @Override
     public void run(String... args) {
         //TODO: HW create at least 3 publisher that each publisher has at least 2 books with single and multiple authors
-
 
         Book book1 = Book.builder()
                 .title("Syngan kylych")
@@ -37,5 +38,21 @@ public class InitData implements CommandLineRunner {
         bookRepository.save(book1);
         bookRepository.save(book2);
 
+        generateBooks();
+
+    }
+
+    void generateBooks() {
+        Random random = new Random();
+
+        for (int i = 0; i < 10000; i++) {
+            Book book = Book.builder()
+                    .title("Book " + (i+1))
+                    .isbn(String.valueOf(random.nextInt(10000000,99999999)))
+                    .publishedYear(random.nextInt(1970,2024))
+                    .build();
+
+            bookRepository.save(book);
+        }
     }
 }

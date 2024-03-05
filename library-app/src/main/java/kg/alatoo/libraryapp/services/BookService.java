@@ -1,13 +1,13 @@
 package kg.alatoo.libraryapp.services;
 
 import kg.alatoo.libraryapp.dto.BookDTO;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
 
-    List<BookDTO> findBooks();
+    Page<BookDTO> findBooks(Integer pageNumber, Integer pageSize);
 
     Optional<BookDTO> findBookByID(Long id);
 

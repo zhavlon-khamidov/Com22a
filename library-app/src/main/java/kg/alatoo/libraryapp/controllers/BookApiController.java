@@ -4,6 +4,7 @@ import kg.alatoo.libraryapp.dto.BookDTO;
 import kg.alatoo.libraryapp.services.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,9 @@ public class BookApiController {
     private final BookService bookService;
 
     @GetMapping(BOOK_PATH)
-    public List<BookDTO> getBooks() {
-        return bookService.findBooks();
+    public Page<BookDTO> getBooks(@RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                                  @RequestParam(required = false, defaultValue = "25") Integer pageSize) {
+        return bookService.findBooks(pageNumber, pageSize);
     }
 
     @GetMapping(ID_PATH)
