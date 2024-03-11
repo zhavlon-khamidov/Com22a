@@ -5,17 +5,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "title_ed",columnNames = {"title","edition"}))
@@ -23,6 +22,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotNull
@@ -30,11 +30,11 @@ public class Book {
     @Size(max = 20, message = "Title length not to be greater than 20")
     @Column(length = 20)
     private String title;
-    private int publishedYear;
+    private Integer publishedYear;
     private String isbn;
-    private int edition;
+    private Integer edition;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Publisher publisher;
 
     @ManyToMany

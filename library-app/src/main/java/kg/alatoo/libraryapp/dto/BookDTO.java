@@ -21,12 +21,11 @@ public class BookDTO {
     @Size(max = 20)
     private String name;
 
-    private int publishedYear;
+    private Integer publishedYear;
 //    @ISBN
     private String isbn;
-    @Positive
     @Builder.Default
-    private int edition=1;
+    private @Positive Integer edition=1;
 
     private PublisherDTO publisher;
 }

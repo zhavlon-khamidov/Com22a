@@ -15,4 +15,6 @@ public interface BookService {
     BookDTO saveBook(BookDTO dto);
 
     Page<BookDTO> findBooks(Pageable pageable);
+
+    BookDTO updateBook(Long id, BookDTO dto);
 }

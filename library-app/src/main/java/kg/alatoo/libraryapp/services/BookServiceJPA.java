@@ -1,5 +1,6 @@
 package kg.alatoo.libraryapp.services;
 
+import kg.alatoo.libraryapp.controllers.NotFoundException;
 import kg.alatoo.libraryapp.dto.BookDTO;
 import kg.alatoo.libraryapp.entities.Book;
 import kg.alatoo.libraryapp.mappers.BookMapper;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -79,5 +82,22 @@ public class BookServiceJPA implements BookService {
 
         return bookRepository.findAll(pageable)
                 .map(bookMapper::bookToBookDto);
+    }
+
+    @Override
+    @Transactional
+    public BookDTO updateBook(Long id, BookDTO dto) {
+        Book book = bookRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (StringUtils.hasLength(dto.getName()))
+            book.setTitle(dto.getName());
+        if (StringUtils.hasLength(dto.getIsbn()))
+            book.setIsbn(dto.getIsbn());
+        if (dto.getEdition() != null) {
+            book.setEdition(dto.getEdition());
+        }
+
+//        bookRepository.save(book);
+
+        return bookMapper.bookToBookDto(book);
     }
 }
