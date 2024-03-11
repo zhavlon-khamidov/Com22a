@@ -5,12 +5,13 @@ import kg.alatoo.libraryapp.services.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +26,14 @@ public class BookApiController {
     private final BookService bookService;
 
     @GetMapping(BOOK_PATH)
-    public Page<BookDTO> getBooks(@RequestParam(required = false, defaultValue = "1") Integer pageNumber,
-                                  @RequestParam(required = false, defaultValue = "25") Integer pageSize) {
-        return bookService.findBooks(pageNumber, pageSize);
+    public Page<BookDTO> getBooks(
+            @PageableDefault(size = 30) Pageable pageable
+//            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+//            @RequestParam(required = false, defaultValue = "25") Integer pageSize
+
+    ) {
+
+        return bookService.findBooks(pageable);
     }
 
     @GetMapping(ID_PATH)

@@ -6,6 +6,7 @@ import kg.alatoo.libraryapp.mappers.BookMapper;
 import kg.alatoo.libraryapp.repositories.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -65,5 +66,18 @@ public class BookServiceJPA implements BookService {
                         bookMapper.bookDtoToBook(dto)
                 )
         );
+    }
+
+    @Override
+    public Page<BookDTO> findBooks(Pageable pageable) {
+        if (pageable.getSort().isUnsorted()) {
+            Sort sort = Sort.by(
+                    Sort.Order.desc("publishedYear"),
+                    Sort.Order.asc("title"));
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        }
+
+        return bookRepository.findAll(pageable)
+                .map(bookMapper::bookToBookDto);
     }
 }
