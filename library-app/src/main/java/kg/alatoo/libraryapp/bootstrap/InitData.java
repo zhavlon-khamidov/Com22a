@@ -1,7 +1,10 @@
 package kg.alatoo.libraryapp.bootstrap;
 
 import kg.alatoo.libraryapp.entities.Book;
+import kg.alatoo.libraryapp.entities.Publisher;
 import kg.alatoo.libraryapp.repositories.BookRepository;
+import kg.alatoo.libraryapp.repositories.PublisherRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +12,12 @@ import java.util.Random;
 
 
 @Component
+@RequiredArgsConstructor
 public class InitData implements CommandLineRunner {
 
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public InitData(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
 
     @Override
     public void run(String... args) {
@@ -38,7 +40,19 @@ public class InitData implements CommandLineRunner {
         bookRepository.save(book1);
         bookRepository.save(book2);
 
-        generateBooks();
+        Publisher publisher = Publisher.builder()
+                .name("Test publisher")
+                .email("publisher@example.com")
+                .address("test address")
+                .build();
+
+        publisherRepository.save(publisher);
+
+        book1.setPublisher(publisher);
+
+        bookRepository.save(book1);
+
+//        generateBooks();
 
     }
 
