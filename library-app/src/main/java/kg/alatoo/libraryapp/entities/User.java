@@ -1,5 +1,6 @@
 package kg.alatoo.libraryapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
@@ -25,7 +26,11 @@ public class User {
     @Size(min = 3,max = 25)
     @Pattern(regexp = "^[a-z0-9_]+$")
     private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @Builder.Default
+    private String role = "USER";
 
     @Email
     private String email;

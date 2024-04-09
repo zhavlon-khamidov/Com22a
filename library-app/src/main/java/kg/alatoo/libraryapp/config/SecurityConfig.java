@@ -26,6 +26,7 @@ public class SecurityConfig {
                 req -> req
 //                        .requestMatchers(HttpMethod.GET,"/api/v1/book").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/v1/book/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/v1/auth/register").anonymous()
                         .anyRequest().authenticated()
         );
 
@@ -41,7 +42,7 @@ public class SecurityConfig {
     }
 
 
-    @Bean
+//    @Bean
     public UserDetailsService userDetailsService() {
         String userPassword = passwordEncoder().encode("user");
         String adminPassword = passwordEncoder().encode("admin");

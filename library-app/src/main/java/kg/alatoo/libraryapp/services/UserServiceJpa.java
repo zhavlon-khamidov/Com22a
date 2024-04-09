@@ -1,5 +1,6 @@
 package kg.alatoo.libraryapp.services;
 
+import kg.alatoo.libraryapp.dto.UserDetailsImpl;
 import kg.alatoo.libraryapp.entities.User;
 import kg.alatoo.libraryapp.repositories.UserRepository;
 import kg.alatoo.libraryapp.services.exceptions.UsernameAlreadyExistsException;
@@ -26,16 +27,15 @@ public class UserServiceJpa implements UserDetailsService, UserService {
         AtomicReference<User> atomicUser = new AtomicReference<>();
 
         userRepository.findByUsername(username).ifPresentOrElse(
-                (user)->{
-                    atomicUser.set(user);
-                },
+                (user)-> atomicUser.set(user),
                 ()-> {
                     throw new UsernameNotFoundException(
                         String.format("User with username '%s' not found",username));
                 }
         );
-        //TODO: return UserDetails instead of User
-        return null;
+        User user = atomicUser.get();
+        //return UserDetails instead of User
+        return new UserDetailsImpl(user);
     }
 
     @Override
@@ -47,7 +47,9 @@ public class UserServiceJpa implements UserDetailsService, UserService {
                 throw new UsernameAlreadyExistsException();
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+            userRepository.saveAndFlush(user);
+        }else {
+            //TODO: username cannot be empty, throw new exception
         }
     }
 }

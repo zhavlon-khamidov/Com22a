@@ -2,8 +2,11 @@ package kg.alatoo.libraryapp.bootstrap;
 
 import kg.alatoo.libraryapp.entities.Book;
 import kg.alatoo.libraryapp.entities.Publisher;
+import kg.alatoo.libraryapp.entities.User;
 import kg.alatoo.libraryapp.repositories.BookRepository;
 import kg.alatoo.libraryapp.repositories.PublisherRepository;
+import kg.alatoo.libraryapp.services.UserService;
+import kg.alatoo.libraryapp.services.exceptions.UsernameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -18,9 +21,11 @@ public class InitData implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
 
+    private final UserService userService;
+
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws UsernameAlreadyExistsException {
         //TODO: HW create at least 3 publisher that each publisher has at least 2 books with single and multiple authors
 
         Book book1 = Book.builder()
@@ -54,6 +59,13 @@ public class InitData implements CommandLineRunner {
 
 //        generateBooks();
 
+        User user = User.builder()
+                .username("user")
+                .password("password")
+                .email("user@example.com")
+                .build();
+
+        userService.createUser(user);
     }
 
     void generateBooks() {
